@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
     private var wakeLock: PowerManager.WakeLock? = null
 
     // 활동 목록
-    private val activities = listOf("Walking", "Jogging", "Sitting", "Standing")
+    private val activities = listOf("Walking", "Sitting", "Standing")
 
     // 런타임 권한 요청
     private val requestPermissionLauncher = registerForActivityResult(
@@ -165,49 +165,39 @@ fun CollectorApp(
                     color    = Color.White
                 )
 
-                // 활동 선택 버튼 2×2 그리드
+                // 활동 선택 버튼
                 val activityEmojis = mapOf(
                     "Walking"  to "🚶",
-                    "Jogging"  to "🏃",
                     "Sitting"  to "🪑",
                     "Standing" to "🧍"
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    listOf(
-                        listOf("Walking", "Jogging"),
-                        listOf("Sitting", "Standing")
-                    ).forEach { row ->
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    activities.forEach { activity ->
+                        val isSelected = activity == selectedActivity
+                        Button(
+                            onClick  = { onActivitySelect(activity) },
+                            colors   = ButtonDefaults.buttonColors(
+                                backgroundColor = if (isSelected)
+                                    Color(0xFF4CAF50) else Color(0xFF333333)
+                            ),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            row.forEach { activity ->
-                                val isSelected = activity == selectedActivity
-                                Button(
-                                    onClick  = { onActivitySelect(activity) },
-                                    colors   = ButtonDefaults.buttonColors(
-                                        backgroundColor = if (isSelected)
-                                            Color(0xFF4CAF50) else Color(0xFF333333)
-                                    ),
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        Text(
-                                            text     = activityEmojis[activity] ?: "",
-                                            fontSize = 16.sp,
-                                            color    = Color.White
-                                        )
-                                        Text(
-                                            text     = activity,
-                                            fontSize = 10.sp,
-                                            color    = Color.White,
-                                            textAlign = TextAlign.Center
-                                        )
-                                    }
-                                }
+                            Row(
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text     = activityEmojis[activity] ?: "",
+                                    fontSize = 16.sp,
+                                    color    = Color.White
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text     = activity,
+                                    fontSize = 12.sp,
+                                    color    = Color.White
+                                )
                             }
                         }
                     }

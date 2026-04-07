@@ -37,7 +37,6 @@ object RawDataLogger {
     // 활동명 → WISDM 코드 매핑
     val ACTIVITY_CODES = mapOf(
         "Walking"  to "A",
-        "Jogging"  to "B",
         "Sitting"  to "D",
         "Standing" to "E"
     )
